@@ -1,0 +1,9 @@
+Calendar = ADDCOLUMNS(
+    CALENDARAUTO(),
+    "WeekDay", FORMAT([Date], "ddd"),
+    "Month Num", MONTH([Date]),
+    "Month Name", FORMAT([Date], "mmm"),
+    "Qtr Num", QUARTER([Date]),
+    "Qtr Name", "Q" & QUARTER([Date]),
+    "Year", YEAR([Date])
+)
