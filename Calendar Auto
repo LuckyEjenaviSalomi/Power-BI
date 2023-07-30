@@ -5,5 +5,6 @@ Calendar = ADDCOLUMNS(
     "Month Name", FORMAT([Date], "mmm"),
     "Qtr Num", QUARTER([Date]),
     "Qtr Name", "Q" & QUARTER([Date]),
+    "Qtr End Date", EOMONTH(DATE(YEAR([Date]), QUARTER([Date]) * 3, 1), 0),
     "Year", YEAR([Date])
 )
