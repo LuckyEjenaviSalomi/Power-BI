@@ -1,0 +1,1 @@
+_UpdatedDate = "Last Updated on: " & format(MAX(UpdateDate[UpdateDate]), "dd mmm yyyy hh:mm am/pm")
