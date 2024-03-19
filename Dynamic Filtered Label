@@ -1,0 +1,56 @@
+FilteredItems = 
+	VAR _delimiter = ", "
+    VAR _table_seperator = UNICHAR(10)
+    VAR _max_limits = 3
+    VAR _set_max_limit = TRUE()
+    // Departments
+	VAR _Result = 
+            // "Depts: " &  
+            IF(
+            ISFILTERED('Dept'[Department]), //Check if table is filtered
+            VAR _tbl = VALUES('Dept'[Department])
+            VAR _items = TOPN(if(_set_max_limit, _max_limits, COUNTROWS(_tbl)), _tbl)
+            VAR _items_combined = CONCATENATEX(
+                _items,
+                'Dept'[Department],
+                _delimiter
+            )
+            RETURN
+                IF(NOT ISBLANK(_items_combined), _items_combined) & if(_set_max_limit && _max_limits < COUNTROWS(VALUES('Dept'[Department])), _delimiter & "..."), 
+            "ALL Depts"
+    )
+& _table_seperator &
+        // Genders
+        // "Gender: " & 
+        IF(
+            ISFILTERED('Gender'[Gender]), //Check if table is filtered
+            VAR _tbl = VALUES(Gender[Gender])
+            VAR _items = TOPN(if(_set_max_limit, _max_limits, COUNTROWS(_tbl)), _tbl)
+            VAR _items_combined = CONCATENATEX(
+                _items,
+                'Gender'[Gender],
+                _delimiter
+            )
+            RETURN
+                IF(NOT ISBLANK(_items_combined), _items_combined) & if(_set_max_limit && _max_limits < COUNTROWS(VALUES(Gender[Gender])), _delimiter & "..."), 
+            "All Genders"
+    )
+& _table_seperator &
+        // Grade Levels
+        // "GL: " & 
+        IF(
+            ISFILTERED('Grade Level'[Grade Level]), //Check if table is filtered
+            VAR _tbl = VALUES('Grade Level'[Grade Level])
+            VAR _items = TOPN(if(_set_max_limit, _max_limits, COUNTROWS(_tbl)), _tbl, 
+                    'Grade Level'[Grade Level], DESC)
+            VAR _items_combined = CONCATENATEX(
+                _items,
+                'Grade Level'[Grade Level],
+                _delimiter
+            )
+            RETURN
+                IF(NOT ISBLANK(_items_combined), _items_combined) & if(_set_max_limit && _max_limits < COUNTROWS(VALUES('Grade Level'[Grade Level])), _delimiter & "..."),
+            "ALL GLs"
+    )
+
+RETURN COALESCE(_Result, "")
