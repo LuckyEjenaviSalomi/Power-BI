@@ -1,1 +1,13 @@
+# Measure
 _UpdatedDate = "Last Updated on: " & format(MAX(UpdateDate[UpdateDate]), "dd mmm yyyy hh:mm am/pm")
+
+# Power Query
+let
+    Source = DateTime.LocalNow(),
+    #"Converted to Table" = #table(1, {{Source}}),
+    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table",{{"Column1", type datetime}}),
+    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "DateTime"}}),
+    #"Inserted Date" = Table.AddColumn(#"Renamed Columns", "Date", each DateTime.Date([DateTime]), type date),
+    #"Inserted Time" = Table.AddColumn(#"Inserted Date", "Time", each DateTime.Time([DateTime]), type time)
+in
+    #"Inserted Time"
